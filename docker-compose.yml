@@ -42,7 +42,7 @@ services:
 
   test-e2e:
     build: .
-    command: npx jest --config ./test/jest-e2e.json
+    command: npm run test:e2e
     depends_on:
       - postgres-test
     environment:
