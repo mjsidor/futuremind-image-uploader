@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, ILike, Repository } from 'typeorm';
 import { Image } from './image.entity';
+import { FindAllResponse } from './find-all.response';
 
 @Injectable()
 export class ImagesRepository extends Repository<Image> {
@@ -12,7 +13,7 @@ export class ImagesRepository extends Repository<Image> {
     page: number = 1,
     limit: number = 20,
     query?: string,
-  ): Promise<{ data: Image[]; total: number; page: number; limit: number }> {
+  ): Promise<FindAllResponse> {
     const [data, total] = await this.findAndCount({
       where: query ? { title: ILike(`%${query}%`) } : undefined,
       skip: (page - 1) * limit,
