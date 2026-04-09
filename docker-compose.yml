@@ -1,0 +1,56 @@
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: futuremind
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: futuremind
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+  postgres-test:
+    image: postgres:latest
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: futuremind_test
+
+  test:
+    build: .
+    command: npm test
+    depends_on:
+      - postgres-test
+
+  test-e2e:
+    build: .
+    command: npx jest --config ./test/jest-e2e.json
+    depends_on:
+      - postgres-test
+    environment:
+      DATABASE_HOST: postgres-test
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: futuremind_test
+
+volumes:
+  pgdata:
