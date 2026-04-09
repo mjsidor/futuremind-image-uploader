@@ -49,7 +49,10 @@ export class ImagesController {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: MAX_FILE_SIZE }),
-          new FileTypeValidator({ fileType: ALLOWED_FILE_TYPE_REGEX, fallbackToMimetype: true }),
+          new FileTypeValidator({
+            fileType: ALLOWED_FILE_TYPE_REGEX,
+            fallbackToMimetype: true,
+          }),
         ],
       }),
     )

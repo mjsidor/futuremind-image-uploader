@@ -7,7 +7,7 @@ describe('ImagesRepository', () => {
 
   beforeEach(() => {
     const mockDataSource = {
-      createEntityManager: jest.fn()
+      createEntityManager: jest.fn(),
     } as unknown as DataSource;
 
     repository = new ImagesRepository(mockDataSource);
@@ -48,7 +48,9 @@ describe('ImagesRepository', () => {
     });
 
     it('should filter by title with ILike when query is provided', async () => {
-      jest.spyOn(repository, 'findAndCount').mockResolvedValue([[mockImages[0]], 1]);
+      jest
+        .spyOn(repository, 'findAndCount')
+        .mockResolvedValue([[mockImages[0]], 1]);
 
       const result = await repository.findPaginated(1, 10, 'phrase');
 

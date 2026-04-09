@@ -195,7 +195,6 @@ describe('Images (e2e)', () => {
       expect(response.body.data[0].title).toBe('Sunset');
     });
 
-
     it('should return no data matching the filter', async () => {
       const response = await request(app.getHttpServer())
         .get('/images?title=nonexistent')
